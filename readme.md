@@ -28,8 +28,7 @@
 		
 		
 # D. Testing the API with Postman
-The Postman collection is designed to demonstrate the 
-full application workflow, including:
+The Postman collection is designed to demonstrate the full application workflow, including:
   - Authentication
   - Task creation
   - Task retrieval
@@ -40,10 +39,11 @@ full application workflow, including:
   - Logout
   - Running the Tests
 
-After importing the collection:
-  - Open the imported Task Management API collection.
-  - Ensure the Spring Boot application is running on: `http://localhost:8080`
-  - Execute the requests in numerical order:
+## Steps to Test
+1. After importing the collection:
+2. Open the imported Task Management API collection.
+3. Ensure the Spring Boot application is running on: `http://localhost:8080`
+4. Execute the requests in numerical order:
     1. Login - Wrong Password (401)
     2. Login as Admin
     3. Create Task
@@ -62,14 +62,15 @@ After importing the collection:
     16. Logout
     17. Get Tasks After Logout (401)
 
-  - Alternatively, the entire collection can be executed 
-  using Postman's Collection Runner.
-  - Test Accounts
-    The collection uses the following test accounts:
-      Username	Password	Role	
-      admin		admin123	ADMIN
-      abu			user123		USER
-      ali			user123		USER
+### Alternative: Using Collection Runner
+Alternatively, the entire collection can be executed using Postman's Collection Runner.
+  
+## Test Accounts
+The collection uses the following test accounts:
+    Username	Password	Role	
+    admin		  admin123	ADMIN
+    abu		    user123		USER
+    ali		    user123		USER
 
-  - These values can be viewed and modified under the collection's Variables tab.
-  - If all requests complete successfully and the tests pass, the application is functioning as expected.
+- These values can be viewed and modified under the collection's Variables tab.
+- If all requests complete successfully and the tests pass, the application is functioning as expected.
