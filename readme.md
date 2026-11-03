@@ -8,6 +8,7 @@
   3. Once the application starts successfully, it will be available at: `http://localhost:8080`
 
 
+
 # B. Importing the Postman Collection
 ## Steps
   1. Navigate to the postman folder in the project.
@@ -19,6 +20,7 @@
   7. The API collection will be added to your Postman workspace and will be ready for testing.
 
 
+
 # C. Database Setup
 - The application is currently configured to use a PostgreSQL database hosted on Aiven.
 - DB connection details is in: `src\main\resources\application.properties`
@@ -26,7 +28,8 @@
   - Create tables: `database/schema.sql`
   - Populate test data: `database/seed-data.sql`
 		
-		
+
+
 # D. Testing the API with Postman
 The Postman collection is designed to demonstrate the full application workflow, including:
   - Authentication
@@ -62,15 +65,51 @@ The Postman collection is designed to demonstrate the full application workflow,
     16. Logout
     17. Get Tasks After Logout (401)
 
+- Values can be viewed and modified under the collection's Variables tab.
+- If all requests complete successfully and the tests pass, the application is functioning as expected.
+
 ### Alternative: Using Collection Runner
 Alternatively, the entire collection can be executed using Postman's Collection Runner.
   
-## Test Accounts
-The collection uses the following test accounts:
-    Username	Password	Role	
-    admin		  admin123	ADMIN
-    abu		    user123		USER
-    ali		    user123		USER
 
-- These values can be viewed and modified under the collection's Variables tab.
-- If all requests complete successfully and the tests pass, the application is functioning as expected.
+
+## Seed Data
+| Id | Username | Password | Role  |
+|----|----------|----------|-------|
+| 1  | admin    | admin123 | ADMIN |
+| 2  | abu      | user123  | USER  |
+| 3  | ali      | user123  | USER  |
+
+| Task id | Title  | Status      | Assigned to |
+|---------|--------|-------------|-------------|
+| 1       | Task 1 | IN_PROGRESS | ali         |
+| 2       | Task 2 | NEW         | ali         |
+| 3       | Task 3 | COMPLETED   | abu         |
+| 4       | Task 4 | NEW         | (none)      |
+
+
+
+## Project Structure
+
+```
+src/main/java/com/example/taskmanager
+├── TaskManagementApplication.java
+├── config/SecurityConfig.java            # URL rules (login open, rest needs login), BCrypt encoder
+├── controller/AuthController.java        # POST /api/auth/login, /api/auth/logout
+├── controller/TaskController.java        # /api/tasks endpoints + @PreAuthorize role checks
+├── service/AuthService.java              # Login (check username + password) and logout
+├── service/TaskService.java              # Task business rules ("USER only sees own tasks")
+├── repository/UserRepository.java        # Spring Data JPA repositories
+├── repository/TaskRepository.java
+├── entity/User.java                      # JPA entities (Role / Status enums nested inside)
+├── entity/Task.java                      # Task field validation (@NotBlank, @Size, @NotNull)
+├── dto/LoginRequest.java                 # Request / response records
+├── dto/TaskRequest.java
+├── dto/StatusRequest.java
+├── dto/TaskResponse.java
+└── exception/GlobalExceptionHandler.java # Turns exceptions into JSON errors
+src/main/resources/application.properties # Aiven database connection
+database/schema.sql                       # Tables and indexes (run manually once)
+database/seed-data.sql                    # Sample users and tasks
+postman/                                  # Postman collection (one file)
+```
